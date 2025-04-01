@@ -65,7 +65,7 @@ export function EventsSection() {
       title: "Nepali New Year 2082 Celebration",
       date: "April 13, 2025",
       time: "6:00 PM - 12:00 AM",
-      location: "WKWKWKWK",
+      location: "Gerry Masterson Township of Thurlow Community Centre",
       description:
         "Join us for a vibrant celebration of the Nepali New Year with traditional food, music, dance performances, and cultural activities for all ages.",
       image: "https://raw.githubusercontent.com/azure069/Comm-Web/main/images/Banner_New_Year_WEBSITE.png",
@@ -160,7 +160,7 @@ export function EventsSection() {
                     </div>
                     <div className="flex items-center text-muted-foreground">
                       <MapPin className="h-4 w-4 mr-2" />
-                      <span className="text-sm">Belleville Community Center</span>
+                      <span className="text-sm">Gerry Masterson Township of Thurlow Community Centrer</span>
                     </div>
                   </div>
                   <p className="text-muted-foreground">
