@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     ],
     apple: [
       {
-        url: "https://raw.githubusercontent.com/azure069/Comm-Web/main/comm-web/apple-touch-icon.png",
+        url: "https://github.com/azure069/communitywebsite/blob/master/public/apple-touch-icon.png",
         sizes: "180x180",
         type: "image/png",
       },
