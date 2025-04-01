@@ -31,6 +31,7 @@ export function Events() {
       title: "Nepali New Year-2082 Celebration",
       date: "April 13, 2025",
       time: "6:00 PM - 12:00 AM",
+      location: "Gerry Masterson Township of Thurlow Community Centre",
       image: "https://raw.githubusercontent.com/azure069/Comm-Web/main/images/Banner_New_Year_WEBSITE.png",
       link: "https://forms.gle/c75HMpHbAv1D7X5u5",
       linkText: "Register Now",
