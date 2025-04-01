@@ -7,14 +7,14 @@ export const metadata: Metadata = {
   description: "Celebrating Nepali culture and building community connections in Belleville, Ontario.",
   icons: {
     icon: [
-      { url: "https://raw.githubusercontent.com/azure069/Comm-Web/main/comm-web/favicon.ico", sizes: "any" },
+      { url: "https://github.com/azure069/Comm-Web/blob/main/images/favicon.ico", sizes: "any" },
       {
-        url: "https://raw.githubusercontent.com/azure069/Comm-Web/main/comm-web/favicon-16x16.png",
+        url: "https://github.com/azure069/Comm-Web/blob/main/images/favicon-16x16.png",
         sizes: "16x16",
         type: "image/png",
       },
       {
-        url: "https://raw.githubusercontent.com/azure069/Comm-Web/main/comm-web/favicon-32x32.png",
+        url: "https://github.com/azure069/Comm-Web/blob/main/images/favicon-32x32.png",
         sizes: "32x32",
         type: "image/png",
       },
