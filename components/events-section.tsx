@@ -92,7 +92,7 @@ export function EventsSection() {
       location: "Belleville Recreation Center",
       description:
         "Experience the biggest festivals of Nepal with traditional rituals, feasting, and cultural performances celebrating victory of good over evil.",
-      image: "https://github.com/azure069/Comm-Web/blob/main/images/dashain-tihar.jpg",
+      image: "https://raw.githubusercontent.com/azure069/Comm-Web/main/images/dashain-tihar.jpg",
       link: "#contact",
       upcoming: true,
     },
