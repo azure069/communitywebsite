@@ -140,9 +140,9 @@ export function ContactSection() {
                   animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                 >
-                  <div className="flex items-start">
+                  <div className="flex items-start md:items-center">
                     <div className="mt-1 mr-4 p-2 bg-primary/10 rounded-full flex-shrink-0">{item.icon}</div>
-                    <div className="overflow-hidden">
+                    <div className="text-left">
                       <h3 className="font-medium">{item.title}</h3>
                       {item.link ? (
                         <a
@@ -162,7 +162,7 @@ export function ContactSection() {
 
             <div className="space-y-4">
               <h3 className="heading-sm">Follow Us</h3>
-              <div className="flex space-x-4">
+              <div className="flex justify-center md:justify-start space-x-4">
                 <motion.a
                   href="https://www.facebook.com/share/1K7LLKYv8r/?mibextid=wwXIfr"
                   target="_blank"
