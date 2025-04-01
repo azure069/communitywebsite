@@ -49,7 +49,7 @@ export function Events() {
       id: "dashain-tihar-2025",
       title: "Dashain Tihar-2025",
       date: "Stay tuned for updates on date, venue, and activities.",
-      image: "https://github.com/azure069/Comm-Web/blob/main/images/dashain-tihar.jpg",
+      image: "https://raw.githubusercontent.com/azure069/Comm-Web/main/images/dashain-tihar.jpg",
       link: "#contact",
       linkText: "Learn More",
     },
