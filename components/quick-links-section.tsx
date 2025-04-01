@@ -171,7 +171,7 @@ export function QuickLinksSection() {
       title: "Quinte Immigration Services",
       description: "Local immigration support services in the Quinte region",
       icon: <Users className="h-6 w-6 text-primary" />,
-      url: "https://www.quinteimmigrationservices.ca/",
+      url: "https://www.quinteimmigration.ca/",
       isExternal: true,
     },
     {
@@ -240,7 +240,7 @@ export function QuickLinksSection() {
       title: "Mental Health Resources",
       description: "Mental health support services for newcomers to Canada",
       icon: <Heart className="h-6 w-6 text-primary" />,
-      url: "https://www.camh.ca/en/health-info/mental-health-and-covid-19/information-for-immigrants-refugees-and-newcomers",
+      url: "https://www.cicscanada.com/en/content/130/newcomer-mental-health-services",
       isExternal: true,
     },
   ]
