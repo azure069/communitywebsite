@@ -58,21 +58,6 @@ export function GallerySection() {
       width: 4,
       height: 3,
     },
-{/*    {
-      id: "image-5",
-      src: "/placeholder.svg?height=600&width=800",
-      alt: "Cultural Performance",
-      width: 4,
-      height: 3,
-    },
-    {
-      id: "image-6",
-      src: "/placeholder.svg?height=800&width=600",
-      alt: "Traditional Attire",
-      width: 3,
-      height: 4,
-    },
-    */}
   ]
 
   return (
