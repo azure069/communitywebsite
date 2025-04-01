@@ -65,7 +65,7 @@ export function EventsSection() {
       title: "Nepali New Year 2082 Celebration",
       date: "April 13, 2025",
       time: "6:00 PM - 12:00 AM",
-      location: "Belleville Community Center",
+      location: "Gerry Masterson Township of Thurlow Community Centre",
       description:
         "Join us for a vibrant celebration of the Nepali New Year with traditional food, music, dance performances, and cultural activities for all ages.",
       image: "https://raw.githubusercontent.com/azure069/Comm-Web/main/images/Banner_New_Year_WEBSITE.png",
@@ -75,7 +75,7 @@ export function EventsSection() {
     {
       id: "summer-festival-2025",
       title: "Summer Festival 2025",
-      date: "July 15, 2025",
+      date: "TBD",
       time: "2:00 PM - 8:00 PM",
       location: "Zwick's Park, Belleville",
       description:
@@ -87,7 +87,7 @@ export function EventsSection() {
     {
       id: "dashain-tihar-2025",
       title: "Dashain & Tihar Celebration",
-      date: "October 25, 2025",
+      date: "TBD",
       time: "5:00 PM - 11:00 PM",
       location: "Belleville Recreation Center",
       description:
