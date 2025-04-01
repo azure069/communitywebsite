@@ -92,7 +92,7 @@ export function EventsSection() {
       location: "Belleville Recreation Center",
       description:
         "Experience the biggest festivals of Nepal with traditional rituals, feasting, and cultural performances celebrating victory of good over evil.",
-      image: "/placeholder.svg?height=400&width=600",
+      image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.namasadventure.com%2Fnamas-blogs%2Ffestival-nepal-dashain-tihar&psig=AOvVaw0F-xuJANHGsaKO0GpCiJBF&ust=1743624199423000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIDg3cnQt4wDFQAAAAAdAAAAABAE",
       link: "#contact",
       upcoming: false,
     },
