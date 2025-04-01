@@ -1,3 +1,5 @@
+"use client"; // Needed for client-side rendering
+
 import React, { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
 import styled, { keyframes } from "styled-components";
