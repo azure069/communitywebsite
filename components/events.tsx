@@ -49,7 +49,7 @@ export function Events() {
       id: "dashain-tihar-2025",
       title: "Dashain Tihar-2025",
       date: "Stay tuned for updates on date, venue, and activities.",
-      image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.namasadventure.com%2Fnamas-blogs%2Ffestival-nepal-dashain-tihar&psig=AOvVaw0F-xuJANHGsaKO0GpCiJBF&ust=1743624199423000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIDg3cnQt4wDFQAAAAAdAAAAABAE",
+      image: "https://github.com/azure069/Comm-Web/blob/main/images/dashain-tihar.jpg",
       link: "#contact",
       linkText: "Learn More",
     },
