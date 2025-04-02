@@ -1,17 +1,14 @@
 "use client";
-
 import { useState, useEffect } from "react";
-import Confetti from "react-confetti";
 
 const Countdown = () => {
   const [timeLeft, setTimeLeft] = useState("");
   const [isEventStarted, setIsEventStarted] = useState(false);
   const [isFinalSeconds, setIsFinalSeconds] = useState(false);
   const [isLastThreeSeconds, setIsLastThreeSeconds] = useState(false);
-  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
-    const eventDate = new Date("2025-04-01T20:10:00").getTime();
+    const eventDate = new Date("2025-04-01T20:55:00").getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
       const distance = eventDate - now;
@@ -19,8 +16,6 @@ const Countdown = () => {
       if (distance <= 0) {
         clearInterval(timer);
         setIsEventStarted(true);
-        setShowConfetti(true);
-        setTimeout(() => setShowConfetti(false), 300000);
       } else {
         const secondsLeft = Math.floor(distance / 1000);
         
@@ -49,7 +44,6 @@ const Countdown = () => {
 
   return (
     <>
-      {showConfetti && <Confetti numberOfPieces={500} gravity={0.3} recycle={false} />} 
       <style jsx>{`
         .container {
           display: flex;
@@ -57,12 +51,22 @@ const Countdown = () => {
           align-items: center;
           justify-content: center;
           height: 100vh;
-          background: ${isEventStarted ? "url('/newyear-bg.jpg') no-repeat center center/cover" : "rgba(0, 0, 0, 0.6)"};
           color: white;
           text-align: center;
           padding: 40px;
           border-radius: 12px;
           transition: background 1s ease-in-out;
+          position: relative;
+        }
+
+        .backgroundVideo {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          z-index: -1;
         }
 
         .countdown {
@@ -108,6 +112,11 @@ const Countdown = () => {
         }
       `}</style>
       <div className="container">
+        {isEventStarted && (
+          <video autoPlay loop muted className="backgroundVideo">
+            <source src="https://www.dropbox.com/scl/fi/s8r9j21lfp9fvs3e2b4s3/fireworks.mp4?rlkey=1uz1hjh0gs4771wwr3x4o1uxi&st=39aimyf3&raw=1" type="video/mp4" />
+          </video>
+        )}
         {isEventStarted ? (
           <h2 className="newYearMessage">🎉 Happy New Year 2082! 🎉</h2>
         ) : (
