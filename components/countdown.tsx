@@ -110,7 +110,6 @@ const Countdown = () => {
             <p className="countdown">{timeLeft}</p>
           </>
         )}
-        <a href="/" className="backBtn">Back to Home</a>
       </div>
     </>
   );
