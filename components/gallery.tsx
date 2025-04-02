@@ -1,10 +1,12 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import Image from "next/image"
 import { useInView } from "react-intersection-observer"
 import { cn } from "@/lib/utils"
-import { X } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
 
 interface GalleryImage {
   src: string
@@ -12,13 +14,29 @@ interface GalleryImage {
 }
 
 export function Gallery() {
-  const [lightboxOpen, setLightboxOpen] = useState(false)
   const [currentImage, setCurrentImage] = useState<GalleryImage | null>(null)
 
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
   })
+
+  // Function to handle closing the lightbox
+  const closeLightbox = () => {
+    setCurrentImage(null)
+    document.body.style.overflow = "auto"
+  }
+
+  // Function to handle image click to prevent propagation
+  const handleImageClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+  }
+
+  // Function to open the lightbox
+  const openLightbox = (image: GalleryImage) => {
+    setCurrentImage(image)
+    document.body.style.overflow = "hidden"
+  }
 
   const images: GalleryImage[] = [
     {
@@ -38,17 +56,6 @@ export function Gallery() {
       alt: "Community Group Photo 2",
     },
   ]
-
-  const openLightbox = (image: GalleryImage) => {
-    setCurrentImage(image)
-    setLightboxOpen(true)
-    document.body.style.overflow = "hidden"
-  }
-
-  const closeLightbox = () => {
-    setLightboxOpen(false)
-    document.body.style.overflow = "auto"
-  }
 
   return (
     <section id="gallery" className="py-16 md:py-24 bg-secondary/50 dark:bg-secondary/10">
@@ -89,30 +96,47 @@ export function Gallery() {
                 fill
                 className="object-cover transition-transform duration-500 hover:scale-110"
               />
+              <div className="absolute inset-0 bg-black/0 hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
+                <span className="text-white opacity-0 hover:opacity-100 transition-opacity duration-300 font-medium">
+                  View
+                </span>
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Lightbox */}
-        {lightboxOpen && currentImage && (
-          <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 animate-fade-in">
-            <button
+        {/* Custom Lightbox */}
+        <AnimatePresence>
+          {currentImage && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
               onClick={closeLightbox}
-              className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
-              aria-label="Close lightbox"
+              onKeyDown={(e) => e.key === "Escape" && closeLightbox()}
+              tabIndex={0}
             >
-              <X className="h-8 w-8" />
-            </button>
-            <div className="relative w-full max-w-4xl max-h-[80vh] aspect-auto">
-              <Image
-                src={currentImage.src || "/placeholder.svg"}
-                alt={currentImage.alt}
-                fill
-                className="object-contain"
-              />
-            </div>
-          </div>
-        )}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3 }}
+                className="relative w-full max-w-4xl max-h-[80vh] aspect-auto"
+                onClick={handleImageClick}
+              >
+                <Image
+                  src={currentImage.src || "/placeholder.svg"}
+                  alt={currentImage.alt}
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   )
