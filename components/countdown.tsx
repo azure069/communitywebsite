@@ -8,12 +8,12 @@ const Countdown = () => {
   const [isLastThreeSeconds, setIsLastThreeSeconds] = useState(false);
 
   useEffect(() => {
-    const eventDate = new Date("2025-04-01T22:33:00").getTime();
+    const eventDate = new Date("2025-04-01T22:35:00").getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
       const distance = eventDate - now;
 
-      if (distance <= 2000) { // Start video 2 seconds before the event
+      if (distance <= 2000) { 
         if (!isEventStarted) {
           setIsEventStarted(true);
         }
@@ -89,12 +89,16 @@ const Countdown = () => {
           height: 100%;
           object-fit: cover;
           z-index: -1;
+          transition: opacity 1s ease-in-out;
+          opacity: ${isEventStarted ? 1 : 0}; 
         }
 
         .countdown {
           font-size: ${isLastThreeSeconds ? "10em" : isFinalSeconds ? "5em" : "3em"};
           font-weight: bold;
           ${isFinalSeconds ? "animation: blink 1s steps(1) infinite;" : ""}
+          transition: opacity 1s ease-in-out;
+          opacity: ${isEventStarted ? 0 : 1}; 
         }
 
         @keyframes blink {
@@ -136,7 +140,7 @@ const Countdown = () => {
       <div className="container">
         {isEventStarted && (
           <video autoPlay loop muted className="backgroundVideo">
-            <source src="https://drive.google.com/uc?id=1XJ2m-S4BTmWK8SiMN311-BNEIAmdLp0W" type="video/mp4" />
+            <source src="https://www.dropbox.com/scl/fi/s8r9j21lfp9fvs3e2b4s3/fireworks.mp4?rlkey=1uz1hjh0gs4771wwr3x4o1uxi&st=hc3opw4u&raw=1" type="video/mp4" />
           </video>
         )}
         {!isEventStarted ? (
