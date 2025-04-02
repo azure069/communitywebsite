@@ -1,11 +1,10 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useRef } from "react"
 import Image from "next/image"
-import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { X } from "lucide-react"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 
 interface GalleryImage {
   id: string
@@ -28,6 +27,22 @@ export function GallerySection() {
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "5%"])
   const galleryScale = useTransform(scrollYProgress, [0.1, 0.6], [0.8, 1])
   const galleryOpacity = useTransform(scrollYProgress, [0.1, 0.5], [0, 1])
+
+  const closeLightbox = () => {
+    setSelectedImage(null)
+    document.body.style.overflow = "auto"
+  }
+
+  // Function to handle image click to prevent propagation
+  const handleImageClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+  }
+
+  // Function to open the lightbox
+  const openLightbox = (image: GalleryImage) => {
+    setSelectedImage(image)
+    document.body.style.overflow = "hidden"
+  }
 
   const galleryImages: GalleryImage[] = [
     {
@@ -101,7 +116,7 @@ export function GallerySection() {
             <motion.div
               key={image.id}
               className="relative aspect-[4/3] overflow-hidden rounded-lg cursor-pointer group"
-              onClick={() => setSelectedImage(image)}
+              onClick={() => openLightbox(image)}
               whileHover={{
                 scale: 1.05,
                 transition: { duration: 0.3 },
@@ -123,36 +138,38 @@ export function GallerySection() {
           ))}
         </motion.div>
 
-        <Dialog open={!!selectedImage} onOpenChange={(open) => !open && setSelectedImage(null)}>
-          <DialogContent
-            className="max-w-5xl p-0 overflow-hidden bg-transparent border-none"
-            onClick={() => setSelectedImage(null)} // Add click handler to close
-          >
-            <div className="relative">
-              <DialogClose className="absolute top-2 right-2 z-10">
-                <Button size="icon" variant="secondary" className="rounded-full h-8 w-8">
-                  <X className="h-4 w-4" />
-                </Button>
-              </DialogClose>
-              {selectedImage && (
-                <motion.div
-                  className="relative h-[80vh] max-h-[80vh] w-full"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3 }}
-                  onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the image itself
-                >
-                  <Image
-                    src={selectedImage.src || "/placeholder.svg"}
-                    alt={selectedImage.alt}
-                    fill
-                    className="object-contain"
-                  />
-                </motion.div>
-              )}
-            </div>
-          </DialogContent>
-        </Dialog>
+        {/* Custom Lightbox */}
+        <AnimatePresence>
+          {selectedImage && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+              onClick={closeLightbox}
+              onKeyDown={(e) => e.key === "Escape" && closeLightbox()}
+              tabIndex={0}
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3 }}
+                className="relative h-[80vh] max-h-[80vh] w-full max-w-5xl"
+                onClick={handleImageClick}
+              >
+                <Image
+                  src={selectedImage.src || "/placeholder.svg"}
+                  alt={selectedImage.alt}
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   )
