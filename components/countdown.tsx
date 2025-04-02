@@ -8,28 +8,23 @@ const Countdown = () => {
   const [isLastThreeSeconds, setIsLastThreeSeconds] = useState(false);
 
   useEffect(() => {
-    const eventDate = new Date("2025-04-01T22:35:00").getTime();
+    const eventDate = new Date("2025-04-01T22:41:00").getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
       const distance = eventDate - now;
 
-      if (distance <= 2000) { 
-        if (!isEventStarted) {
-          setIsEventStarted(true);
-        }
-      }
-
       if (distance <= 0) {
         clearInterval(timer);
+        setIsEventStarted(true); 
       } else {
         const secondsLeft = Math.floor(distance / 1000);
-        
+
         if (secondsLeft <= 3) {
           setIsLastThreeSeconds(true);
         } else {
           setIsLastThreeSeconds(false);
         }
-        
+
         if (secondsLeft <= 15) {
           setIsFinalSeconds(true);
           setTimeLeft(`${secondsLeft}`);
@@ -62,7 +57,7 @@ const Countdown = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isEventStarted]);
+  }, []);
 
   return (
     <>
@@ -90,7 +85,7 @@ const Countdown = () => {
           object-fit: cover;
           z-index: -1;
           transition: opacity 1s ease-in-out;
-          opacity: ${isEventStarted ? 1 : 0}; 
+          opacity: ${isEventStarted ? 1 : 0}; /* Transition effect */
         }
 
         .countdown {
@@ -98,7 +93,7 @@ const Countdown = () => {
           font-weight: bold;
           ${isFinalSeconds ? "animation: blink 1s steps(1) infinite;" : ""}
           transition: opacity 1s ease-in-out;
-          opacity: ${isEventStarted ? 0 : 1}; 
+          opacity: ${isEventStarted ? 0 : 1}; /* Fade out countdown when video starts */
         }
 
         @keyframes blink {
@@ -139,18 +134,19 @@ const Countdown = () => {
       `}</style>
       <div className="container">
         {isEventStarted && (
-          <video autoPlay loop muted className="backgroundVideo">
-            <source src="https://www.dropbox.com/scl/fi/s8r9j21lfp9fvs3e2b4s3/fireworks.mp4?rlkey=1uz1hjh0gs4771wwr3x4o1uxi&st=hc3opw4u&raw=1" type="video/mp4" />
-          </video>
+          <>
+            <video autoPlay loop muted className="backgroundVideo">
+              <source src="https://www.dropbox.com/scl/fi/s8r9j21lfp9fvs3e2b4s3/fireworks.mp4?rlkey=1uz1hjh0gs4771wwr3x4o1uxi&st=hc3opw4u&dl=1" type="video/mp4" />
+            </video>
+            <h2 className="newYearMessage">🎉 Happy New Year 2082! 🎉</h2>
+          </>
         )}
         {!isEventStarted ? (
           <div>
             <h2>Countdown to Nepali New Year 2082!</h2>
             <p className="countdown">{timeLeft}</p>
           </div>
-        ) : (
-          <h2 className="newYearMessage">🎉 Happy New Year 2082! 🎉</h2>
-        )}
+        ) : null}
       </div>
     </>
   );
