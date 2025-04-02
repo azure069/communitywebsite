@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
+import { X } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 interface GalleryImage {
   id: string
@@ -149,14 +151,28 @@ export function GallerySection() {
             <div className="fixed inset-0 z-50 touch-none">
               <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={closeLightbox} />
               <div className="absolute inset-0 flex items-center justify-center p-4">
-                <div className="relative h-[80vh] max-h-[80vh] w-full max-w-5xl">
-                  <Image
-                    src={selectedImage.src || "/placeholder.svg"}
-                    alt={selectedImage.alt}
-                    fill
-                    className="object-contain"
-                    priority
-                  />
+                <div className="relative w-full max-w-5xl">
+                  <div className="relative w-full h-[70vh] md:h-[80vh]">
+                    <Image
+                      src={selectedImage.src || "/placeholder.svg"}
+                      alt={selectedImage.alt}
+                      fill
+                      className="object-contain"
+                      priority
+                    />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="absolute top-3 right-3 bg-black/60 hover:bg-black/80 text-white rounded-full h-10 w-10 shadow-md z-20"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        closeLightbox()
+                      }}
+                      aria-label="Close"
+                    >
+                      <X className="h-5 w-5" />
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
