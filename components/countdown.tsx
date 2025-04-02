@@ -6,7 +6,7 @@ const Countdown = () => {
   const [isEventStarted, setIsEventStarted] = useState(false);
 
   useEffect(() => {
-    const eventDate = new Date("2025-04-14T00:00:00").getTime();
+    const eventDate = new Date("2025-04-01T20:10:00").getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
       const distance = eventDate - now;
