@@ -1,12 +1,10 @@
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { useInView } from "react-intersection-observer"
 import { cn } from "@/lib/utils"
-import { motion, AnimatePresence } from "framer-motion"
+import { AnimatePresence } from "framer-motion"
 
 interface GalleryImage {
   src: string
@@ -21,21 +19,27 @@ export function Gallery() {
     triggerOnce: true,
   })
 
-  // Function to handle closing the lightbox
-  const closeLightbox = () => {
-    setCurrentImage(null)
-    document.body.style.overflow = "auto"
-  }
+  // Lock/unlock body scroll when lightbox opens/closes
+  useEffect(() => {
+    if (currentImage) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "auto"
+    }
 
-  // Function to handle image click to prevent propagation
-  const handleImageClick = (e: React.MouseEvent) => {
-    e.stopPropagation()
-  }
+    return () => {
+      document.body.style.overflow = "auto"
+    }
+  }, [currentImage])
 
   // Function to open the lightbox
   const openLightbox = (image: GalleryImage) => {
     setCurrentImage(image)
-    document.body.style.overflow = "hidden"
+  }
+
+  // Function to close the lightbox
+  const closeLightbox = () => {
+    setCurrentImage(null)
   }
 
   const images: GalleryImage[] = [
@@ -108,33 +112,20 @@ export function Gallery() {
         {/* Custom Lightbox */}
         <AnimatePresence>
           {currentImage && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-              onClick={closeLightbox}
-              onKeyDown={(e) => e.key === "Escape" && closeLightbox()}
-              tabIndex={0}
-            >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-                className="relative w-full max-w-4xl max-h-[80vh] aspect-auto"
-                onClick={handleImageClick}
-              >
-                <Image
-                  src={currentImage.src || "/placeholder.svg"}
-                  alt={currentImage.alt}
-                  fill
-                  className="object-contain"
-                  priority
-                />
-              </motion.div>
-            </motion.div>
+            <div className="fixed inset-0 z-50 touch-none">
+              <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={closeLightbox} />
+              <div className="absolute inset-0 flex items-center justify-center p-4">
+                <div className="relative w-full max-w-4xl max-h-[80vh] aspect-auto">
+                  <Image
+                    src={currentImage.src || "/placeholder.svg"}
+                    alt={currentImage.alt}
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+              </div>
+            </div>
           )}
         </AnimatePresence>
       </div>
