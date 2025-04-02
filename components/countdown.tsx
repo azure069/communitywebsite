@@ -8,7 +8,7 @@ const Countdown = () => {
   const [isLastThreeSeconds, setIsLastThreeSeconds] = useState(false);
 
   useEffect(() => {
-    const eventDate = new Date("2025-04-01T21:00:00").getTime();
+    const eventDate = new Date("2025-04-01T21:09:00").getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
       const distance = eventDate - now;
@@ -34,7 +34,24 @@ const Countdown = () => {
           const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
           const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
           const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-          setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+
+          let timeString = "";
+          if (days > 1) {
+            timeString += `${days}d `;
+          }
+          if (days > 0 && hours > 0) {
+            timeString += `${hours}h `;
+          } else if (hours > 0) {
+            timeString += `${hours}h `;
+          }
+          if (minutes > 0) {
+            timeString += `${minutes}m `;
+          }
+          if (seconds > 0) {
+            timeString += `${seconds}s`;
+          }
+
+          setTimeLeft(timeString.trim());
         }
       }
     }, 1000);
@@ -114,7 +131,7 @@ const Countdown = () => {
       <div className="container">
         {isEventStarted && (
           <video autoPlay loop muted className="backgroundVideo">
-            <source src="https://www.dropbox.com/scl/fi/s8r9j21lfp9fvs3e2b4s3/fireworks.mp4?rlkey=1uz1hjh0gs4771wwr3x4o1uxi&st=39aimyf3&raw=1" type="video/mp4" />
+            <source src="https://drive.google.com/uc?id=1XJ2m-S4BTmWK8SiMN311-BNEIAmdLp0W" type="video/mp4" />
           </video>
         )}
         {isEventStarted ? (
