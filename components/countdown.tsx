@@ -8,7 +8,7 @@ const Countdown = () => {
   const [isLastThreeSeconds, setIsLastThreeSeconds] = useState(false);
 
   useEffect(() => {
-    const eventDate = new Date("2025-04-01T21:09:00").getTime();
+    const eventDate = new Date("2025-04-01T21:13:00").getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
       const distance = eventDate - now;
@@ -131,7 +131,7 @@ const Countdown = () => {
       <div className="container">
         {isEventStarted && (
           <video autoPlay loop muted className="backgroundVideo">
-            <source src="https://drive.google.com/uc?id=1XJ2m-S4BTmWK8SiMN311-BNEIAmdLp0W" type="video/mp4" />
+            <source src="https://drive.google.com/uc?export=download&id=1XJ2m-S4BTmWK8SiMN311-BNEIAmdLp0W" type="video/mp4" />
           </video>
         )}
         {isEventStarted ? (
