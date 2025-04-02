@@ -8,7 +8,7 @@ const Countdown = () => {
   const [isLastThreeSeconds, setIsLastThreeSeconds] = useState(false);
 
   useEffect(() => {
-    const eventDate = new Date("2025-04-01T22:15:00").getTime();
+    const eventDate = new Date("2025-04-01T22:25:00").getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
       const distance = eventDate - now;
