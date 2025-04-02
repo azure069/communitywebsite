@@ -1,14 +1,17 @@
 "use client";
+
 import { useState, useEffect } from "react";
+import Confetti from "react-confetti";
 
 const Countdown = () => {
   const [timeLeft, setTimeLeft] = useState("");
   const [isEventStarted, setIsEventStarted] = useState(false);
   const [isFinalSeconds, setIsFinalSeconds] = useState(false);
   const [isLastThreeSeconds, setIsLastThreeSeconds] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
-    const eventDate = new Date("2025-04-01T20:20:00").getTime();
+    const eventDate = new Date("2025-04-01T20:10:00").getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
       const distance = eventDate - now;
@@ -16,24 +19,27 @@ const Countdown = () => {
       if (distance <= 0) {
         clearInterval(timer);
         setIsEventStarted(true);
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 300000);
       } else {
-        if (distance <= 3000) {
+        const secondsLeft = Math.floor(distance / 1000);
+        
+        if (secondsLeft <= 3) {
           setIsLastThreeSeconds(true);
         } else {
           setIsLastThreeSeconds(false);
         }
         
-        if (distance <= 15000) {
+        if (secondsLeft <= 15) {
           setIsFinalSeconds(true);
-          const secondsLeft = Math.floor(distance / 1000);
-          setTimeLeft(`${secondsLeft} second${secondsLeft === 1 ? "" : "s"}`);
+          setTimeLeft(`${secondsLeft}`);
         } else {
           setIsFinalSeconds(false);
           const days = Math.floor(distance / (1000 * 60 * 60 * 24));
           const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
           const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
           const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-          setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+          setTimeLeft(`${minutes}m ${seconds}s`);
         }
       }
     }, 1000);
@@ -43,6 +49,7 @@ const Countdown = () => {
 
   return (
     <>
+      {showConfetti && <Confetti numberOfPieces={500} gravity={0.3} recycle={false} />} 
       <style jsx>{`
         .container {
           display: flex;
@@ -59,14 +66,13 @@ const Countdown = () => {
         }
 
         .countdown {
-          font-size: ${isLastThreeSeconds ? "6em" : isFinalSeconds ? "4em" : "3em"};
+          font-size: ${isLastThreeSeconds ? "10em" : isFinalSeconds ? "5em" : "3em"};
           font-weight: bold;
-          ${isFinalSeconds ? "animation: blink 1s infinite alternate;" : ""}
+          ${isFinalSeconds ? "animation: blink 1s steps(1) infinite;" : ""}
         }
 
         @keyframes blink {
-          from { opacity: 1; }
-          to { opacity: 0; }
+          50% { opacity: 0; }
         }
 
         .backBtn {
