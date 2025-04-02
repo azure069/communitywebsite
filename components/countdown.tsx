@@ -13,9 +13,14 @@ const Countdown = () => {
       const now = new Date().getTime();
       const distance = eventDate - now;
 
+      if (distance <= 2000) { // Start video 2 seconds before the event
+        if (!isEventStarted) {
+          setIsEventStarted(true);
+        }
+      }
+
       if (distance <= 0) {
         clearInterval(timer);
-        setIsEventStarted(true);
       } else {
         const secondsLeft = Math.floor(distance / 1000);
         
@@ -57,7 +62,7 @@ const Countdown = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [isEventStarted]);
 
   return (
     <>
@@ -130,17 +135,23 @@ const Countdown = () => {
       `}</style>
       <div className="container">
         {isEventStarted && (
-          <video autoPlay loop muted className="backgroundVideo">
-            <source src="https://drive.google.com/uc?export=download&id=1XJ2m-S4BTmWK8SiMN311-BNEIAmdLp0W" type="video/mp4" />
-          </video>
+          <iframe
+            src="https://www.dropbox.com/scl/fi/s8r9j21lfp9fvs3e2b4s3/fireworks.mp4?rlkey=1uz1hjh0gs4771wwr3x4o1uxi&st=hc3opw4u&dl=1"
+            width="100%"
+            height="100%"
+            style={{ position: "absolute", top: 0, left: 0, zIndex: -1 }}
+            frameBorder="0"
+            allow="autoplay"
+            title="Event Video"
+          />
         )}
-        {isEventStarted ? (
-          <h2 className="newYearMessage">🎉 Happy New Year 2082! 🎉</h2>
-        ) : (
-          <>
+        {!isEventStarted ? (
+          <div>
             <h2>Countdown to Nepali New Year 2082!</h2>
             <p className="countdown">{timeLeft}</p>
-          </>
+          </div>
+        ) : (
+          <h2 className="newYearMessage">🎉 Happy New Year 2082! 🎉</h2>
         )}
       </div>
     </>
