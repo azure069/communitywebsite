@@ -8,7 +8,7 @@ const Countdown = () => {
   const [isLastThreeSeconds, setIsLastThreeSeconds] = useState(false);
 
   useEffect(() => {
-    const eventDate = new Date("2025-04-01T22:25:00").getTime();
+    const eventDate = new Date("2025-04-01T22:33:00").getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
       const distance = eventDate - now;
@@ -135,15 +135,9 @@ const Countdown = () => {
       `}</style>
       <div className="container">
         {isEventStarted && (
-          <iframe
-            src="https://www.dropbox.com/scl/fi/s8r9j21lfp9fvs3e2b4s3/fireworks.mp4?rlkey=1uz1hjh0gs4771wwr3x4o1uxi&st=hc3opw4u&dl=1"
-            width="100%"
-            height="100%"
-            style={{ position: "absolute", top: 0, left: 0, zIndex: -1 }}
-            frameBorder="0"
-            allow="autoplay"
-            title="Event Video"
-          />
+          <video autoPlay loop muted className="backgroundVideo">
+            <source src="https://drive.google.com/uc?id=1XJ2m-S4BTmWK8SiMN311-BNEIAmdLp0W" type="video/mp4" />
+          </video>
         )}
         {!isEventStarted ? (
           <div>
