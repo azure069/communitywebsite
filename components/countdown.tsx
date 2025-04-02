@@ -8,7 +8,7 @@ const Countdown = () => {
   const [isLastThreeSeconds, setIsLastThreeSeconds] = useState(false);
 
   useEffect(() => {
-    const eventDate = new Date("2025-04-01T20:55:00").getTime();
+    const eventDate = new Date("2025-04-01T21:00:00").getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
       const distance = eventDate - now;
@@ -34,7 +34,7 @@ const Countdown = () => {
           const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
           const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
           const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-          setTimeLeft(`${minutes}m ${seconds}s`);
+          setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
         }
       }
     }, 1000);
