@@ -4,9 +4,10 @@ import { useState, useEffect } from "react";
 const Countdown = () => {
   const [timeLeft, setTimeLeft] = useState("");
   const [isEventStarted, setIsEventStarted] = useState(false);
+  const [isFinalSeconds, setIsFinalSeconds] = useState(false);
 
   useEffect(() => {
-    const eventDate = new Date("2025-04-01T20:10:00").getTime();
+    const eventDate = new Date("2025-04-01T20:15:00").getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
       const distance = eventDate - now;
@@ -15,11 +16,17 @@ const Countdown = () => {
         clearInterval(timer);
         setIsEventStarted(true);
       } else {
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+        if (distance <= 15000) {
+          setIsFinalSeconds(true);
+          setTimeLeft(`${Math.floor(distance / 1000)}s`);
+        } else {
+          setIsFinalSeconds(false);
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+        }
       }
     }, 1000);
 
@@ -35,16 +42,23 @@ const Countdown = () => {
           align-items: center;
           justify-content: center;
           height: 100vh;
-          background: rgba(0, 0, 0, 0.6);
+          background: ${isEventStarted ? "url('/newyear-bg.jpg') no-repeat center center/cover" : "rgba(0, 0, 0, 0.6)"};
           color: white;
           text-align: center;
           padding: 40px;
           border-radius: 12px;
+          transition: background 1s ease-in-out;
         }
 
         .countdown {
-          font-size: 3em;
+          font-size: ${isFinalSeconds ? "4em" : "3em"};
           font-weight: bold;
+          ${isFinalSeconds ? "animation: blink 1s infinite alternate;" : ""}
+        }
+
+        @keyframes blink {
+          from { opacity: 1; }
+          to { opacity: 0; }
         }
 
         .backBtn {
