@@ -1,63 +1,68 @@
-"use client";
-import { useState, useEffect } from "react";
+"use client"
+import { useState, useEffect, useRef } from "react"
 
 const Countdown = () => {
-  const [timeLeft, setTimeLeft] = useState("");
-  const [isEventStarted, setIsEventStarted] = useState(false);
-  const [isFinalSeconds, setIsFinalSeconds] = useState(false);
-  const [isLastThreeSeconds, setIsLastThreeSeconds] = useState(false);
+  const [timeLeft, setTimeLeft] = useState("")
+  const [isEventStarted, setIsEventStarted] = useState(false)
+  const [isFinalSeconds, setIsFinalSeconds] = useState(false)
+  const [isLastThreeSeconds, setIsLastThreeSeconds] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
-    const eventDate = new Date("2025-04-01T22:41:00").getTime();
+    const eventDate = new Date("2025-04-01T22:48:00").getTime()
     const timer = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = eventDate - now;
+      const now = new Date().getTime()
+      const distance = eventDate - now
 
       if (distance <= 0) {
-        clearInterval(timer);
-        setIsEventStarted(true); 
+        clearInterval(timer)
+        setIsEventStarted(true)
+
+        if (videoRef.current) {
+          videoRef.current.play()
+        }
       } else {
-        const secondsLeft = Math.floor(distance / 1000);
+        const secondsLeft = Math.floor(distance / 1000)
 
         if (secondsLeft <= 3) {
-          setIsLastThreeSeconds(true);
+          setIsLastThreeSeconds(true)
         } else {
-          setIsLastThreeSeconds(false);
+          setIsLastThreeSeconds(false)
         }
 
         if (secondsLeft <= 15) {
-          setIsFinalSeconds(true);
-          setTimeLeft(`${secondsLeft}`);
+          setIsFinalSeconds(true)
+          setTimeLeft(`${secondsLeft}`)
         } else {
-          setIsFinalSeconds(false);
-          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          setIsFinalSeconds(false)
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24))
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000)
 
-          let timeString = "";
+          let timeString = ""
           if (days > 1) {
-            timeString += `${days}d `;
+            timeString += `${days}d `
           }
           if (days > 0 && hours > 0) {
-            timeString += `${hours}h `;
+            timeString += `${hours}h `
           } else if (hours > 0) {
-            timeString += `${hours}h `;
+            timeString += `${hours}h `
           }
           if (minutes > 0) {
-            timeString += `${minutes}m `;
+            timeString += `${minutes}m `
           }
           if (seconds > 0) {
-            timeString += `${seconds}s`;
+            timeString += `${seconds}s`
           }
 
-          setTimeLeft(timeString.trim());
+          setTimeLeft(timeString.trim())
         }
       }
-    }, 1000);
+    }, 1000)
 
-    return () => clearInterval(timer);
-  }, []);
+    return () => clearInterval(timer)
+  }, [])
 
   return (
     <>
@@ -133,14 +138,16 @@ const Countdown = () => {
         }
       `}</style>
       <div className="container">
-        {isEventStarted && (
-          <>
-            <video autoPlay loop muted className="backgroundVideo">
-              <source src="https://www.dropbox.com/scl/fi/s8r9j21lfp9fvs3e2b4s3/fireworks.mp4?rlkey=1uz1hjh0gs4771wwr3x4o1uxi&st=hc3opw4u&dl=1" type="video/mp4" />
-            </video>
-            <h2 className="newYearMessage">🎉 Happy New Year 2082! 🎉</h2>
-          </>
-        )}
+        {/* Always render the video but control visibility with CSS */}
+        <video ref={videoRef} className="backgroundVideo" muted loop preload="auto">
+          <source
+            src="https://www.dropbox.com/scl/fi/s8r9j21lfp9fvs3e2b4s3/fireworks.mp4?rlkey=1uz1hjh0gs4771wwr3x4o1uxi&st=hc3opw4u&dl=1"
+            type="video/mp4"
+          />
+        </video>
+
+        {isEventStarted && <h2 className="newYearMessage">🎉 Happy New Year 2082! 🎉</h2>}
+
         {!isEventStarted ? (
           <div>
             <h2>Countdown to Nepali New Year 2082!</h2>
@@ -149,7 +156,8 @@ const Countdown = () => {
         ) : null}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Countdown;
+export default Countdown
+
