@@ -5,9 +5,10 @@ const Countdown = () => {
   const [timeLeft, setTimeLeft] = useState("");
   const [isEventStarted, setIsEventStarted] = useState(false);
   const [isFinalSeconds, setIsFinalSeconds] = useState(false);
+  const [isLastThreeSeconds, setIsLastThreeSeconds] = useState(false);
 
   useEffect(() => {
-    const eventDate = new Date("2025-04-01T20:15:00").getTime();
+    const eventDate = new Date("2025-04-01T20:10:00").getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
       const distance = eventDate - now;
@@ -16,9 +17,16 @@ const Countdown = () => {
         clearInterval(timer);
         setIsEventStarted(true);
       } else {
+        if (distance <= 3000) {
+          setIsLastThreeSeconds(true);
+        } else {
+          setIsLastThreeSeconds(false);
+        }
+        
         if (distance <= 15000) {
           setIsFinalSeconds(true);
-          setTimeLeft(`${Math.floor(distance / 1000)}s`);
+          const secondsLeft = Math.floor(distance / 1000);
+          setTimeLeft(`${secondsLeft} second${secondsLeft === 1 ? "" : "s"}`);
         } else {
           setIsFinalSeconds(false);
           const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -51,7 +59,7 @@ const Countdown = () => {
         }
 
         .countdown {
-          font-size: ${isFinalSeconds ? "4em" : "3em"};
+          font-size: ${isLastThreeSeconds ? "6em" : isFinalSeconds ? "4em" : "3em"};
           font-weight: bold;
           ${isFinalSeconds ? "animation: blink 1s infinite alternate;" : ""}
         }
