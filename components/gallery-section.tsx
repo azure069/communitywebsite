@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import { X } from "lucide-react"
+import { X, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 interface GalleryImage {
@@ -14,10 +14,18 @@ interface GalleryImage {
   height: number
 }
 
+interface GalleryVideo {
+  id: string
+  videoSrc: string
+  title: string
+}
+
 export function GallerySection() {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null)
+  const [selectedVideo, setSelectedVideo] = useState<GalleryVideo | null>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const galleryRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -28,9 +36,8 @@ export function GallerySection() {
   const galleryScale = useTransform(scrollYProgress, [0.1, 0.6], [0.8, 1])
   const galleryOpacity = useTransform(scrollYProgress, [0.1, 0.5], [0, 1])
 
-  // Lock/unlock body scroll when lightbox opens/closes
   useEffect(() => {
-    if (selectedImage) {
+    if (selectedImage || selectedVideo) {
       document.body.style.overflow = "hidden"
     } else {
       document.body.style.overflow = "auto"
@@ -39,16 +46,19 @@ export function GallerySection() {
     return () => {
       document.body.style.overflow = "auto"
     }
-  }, [selectedImage])
+  }, [selectedImage, selectedVideo])
 
-  // Function to open the lightbox
   const openLightbox = (image: GalleryImage) => {
     setSelectedImage(image)
   }
 
-  // Function to close the lightbox
+  const openVideoLightbox = (video: GalleryVideo) => {
+    setSelectedVideo(video)
+  }
+
   const closeLightbox = () => {
     setSelectedImage(null)
+    setSelectedVideo(null)
   }
 
   const galleryImages: GalleryImage[] = [
@@ -82,6 +92,12 @@ export function GallerySection() {
     },
   ]
 
+  const galleryVideo: GalleryVideo = {
+    id: "video-1",
+    videoSrc: "https://www.dropbox.com/scl/fi/fyp811eadjrjww6d1btu7/Video.mp4?rlkey=xseg0a4rwxyrchbaup88ms9e3&raw=1",
+    title: "Community Event Highlights",
+  }
+
   return (
     <section
       id="gallery"
@@ -111,13 +127,14 @@ export function GallerySection() {
           </p>
         </motion.div>
 
+        {/* Image Gallery */}
         <motion.div
           ref={galleryRef}
           style={{
             scale: galleryScale,
             opacity: galleryOpacity,
           }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-16"
         >
           {galleryImages.map((image) => (
             <motion.div
@@ -145,7 +162,31 @@ export function GallerySection() {
           ))}
         </motion.div>
 
-        {/* Custom Lightbox */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true }}
+          className="mb-12"
+        >
+          <h3 className="text-2xl font-semibold mb-6 text-center">Community Video</h3>
+          <div className="max-w-4xl mx-auto">
+            <div
+              className="relative aspect-video rounded-xl overflow-hidden cursor-pointer shadow-lg bg-black"
+              onClick={() => openVideoLightbox(galleryVideo)}
+            >
+              <div className="absolute inset-0 bg-black flex flex-col items-center justify-center">
+                <div className="bg-white/20 backdrop-blur-sm p-5 rounded-full">
+                  <Play className="h-10 w-10 text-white" />
+                </div>
+                <h4 className="mt-4 text-white text-xl font-semibold">{galleryVideo.title}</h4>
+                <p className="text-white/80 mt-2">Click to play video</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Image Lightbox */}
         <AnimatePresence>
           {selectedImage && (
             <div className="fixed inset-0 z-50 touch-none">
@@ -160,6 +201,43 @@ export function GallerySection() {
                       className="object-contain"
                       priority
                     />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="absolute top-3 right-3 bg-black/60 hover:bg-black/80 text-white rounded-full h-10 w-10 shadow-md z-20"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        closeLightbox()
+                      }}
+                      aria-label="Close"
+                    >
+                      <X className="h-5 w-5" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </AnimatePresence>
+
+        {/* Video Lightbox */}
+        <AnimatePresence>
+          {selectedVideo && (
+            <div className="fixed inset-0 z-50 touch-none">
+              <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={closeLightbox} />
+              <div className="absolute inset-0 flex items-center justify-center p-4">
+                <div className="relative w-full max-w-5xl">
+                  <div className="relative w-full aspect-video">
+                    <video
+                      ref={videoRef}
+                      src={selectedVideo.videoSrc}
+                      className="w-full h-full rounded-lg"
+                      controls
+                      autoPlay
+                      playsInline
+                    >
+                      Your browser does not support the video tag.
+                    </video>
                     <Button
                       variant="ghost"
                       size="icon"
