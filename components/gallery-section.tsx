@@ -223,7 +223,7 @@ export function GallerySection() {
         {/* Video Lightbox */}
         <AnimatePresence>
           {selectedVideo && (
-            <div className="fixed inset-0 z-1000 touch-none">
+            <div className="fixed inset-0 z-9999 touch-none">
               <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={closeLightbox} />
               <div className="absolute inset-0 flex items-center justify-center p-4">
                 <div className="relative w-full max-w-5xl">
