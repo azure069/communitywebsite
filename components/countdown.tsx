@@ -79,6 +79,20 @@ const Countdown = () => {
           border-radius: 12px;
           transition: background 1s ease-in-out;
           position: relative;
+          background-image: url('https://raw.githubusercontent.com/azure069/Comm-Web/main/images/Hero_bg_2.jpg');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+
+        .backgroundOverlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+          z-index: -1;
         }
 
         .backgroundVideo {
@@ -99,6 +113,7 @@ const Countdown = () => {
           ${isFinalSeconds ? "animation: blink 1s steps(1) infinite;" : ""}
           transition: opacity 1s ease-in-out;
           opacity: ${isEventStarted ? 0 : 1}; /* Fade out countdown when video starts */
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
         }
 
         @keyframes blink {
@@ -138,6 +153,8 @@ const Countdown = () => {
         }
       `}</style>
       <div className="container">
+        <div className="backgroundOverlay"></div>
+
         {/* Always render the video but control visibility with CSS */}
         <video ref={videoRef} className="backgroundVideo" muted loop preload="auto">
           <source
