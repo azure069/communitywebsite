@@ -35,7 +35,7 @@ export function Footer() {
           external: true,
         },
         { label: "Settlement.Org", href: "https://settlement.org/", external: true },
-        { label: "Quinte Immigration Services", href: "https://www.quinteimmigrationservices.ca/", external: true },
+        { label: "Quinte Immigration Services", href: "https://www.quinteimmigration.ca/", external: true },
       ],
     },
     {
